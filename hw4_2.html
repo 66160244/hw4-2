@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>โจทย์ที่2: ระบบจัดการคลังสินค้าขนาดเล็ก</title>
+</head>
+<body>
+    <h3>ค้นหาและกรองข้อมูล</h3>
+    <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="ค้นหา..." />
+    <ul id="itemList">
+        <li>แอปเปิ้ล</li>
+        <li>กล้วย</li>
+        <li>ส้ม</li>
+        <li>มะม่วง</li>
+        <li>ชมพู่</li>
+        <li>แมว</li>
+        <li>แมวทอด</li>
+    </ul>
+<script>
+    function searchItems() {
+        const searchText = document.getElementById("searchInput").value.toLowerCase();
+        const items = document.getElementById("itemList").getElementsByTagName("li");
+        for (let item of items) {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(searchText) ? "" : "none";
+        }
+    }
+</script>
+</body>
+</html>
