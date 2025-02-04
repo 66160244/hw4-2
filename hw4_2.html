@@ -1,17 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomeWork4-2</title>
 </head>
+
 <body>
     <form id="ProductForm">
         <input type="text" id="ProductName" placeholder="ชื่อสินค้า">
-        <input type="number" id="ProductName" placeholder="ราคา">
+        <input type="number" id="ProductPrice" placeholder="ราคา">
         <input type="number" id="ProductQuantity" placeholder="จำนวนคงเหลือ">
         <input type="text" id="Cat" placeholder="ประเภทสินค้า"><br>
         <button type="submit">เพิ่มสินค้า</button>
     </form>
+    <div id="productDisplay"></div>
+
+    <script>
+         document.getElementById('ProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const product = {
+                name: document.getElementById('ProductName').value.trim(),
+                price: parseFloat(document.getElementById('ProductPrice').value),
+                quantity: parseInt(document.getElementById('ProductQuantity').value),
+                category: document.getElementById('Cat').value.trim()
+            };
+
+            addProduct(product);
+        });
+        function addProduct(productData) {
+            let storedProduct = JSON.parse(localStorage.getItem('ProdData')) || [];
+            if (!Array.isArray(storedProduct)) storedProduct = [];
+            storedProduct.push(productData);
+            localStorage.setItem('ProdData', JSON.stringify(storedProduct));
+            renderProducts();
+        }
+        function renderProducts() {
+            let storedProduct = JSON.parse(localStorage.getItem('ProdData')) || [];
+            const productContainer = document.getElementById("productDisplay");
+            productContainer.innerHTML = "";
+
+            storedProduct.forEach((product, index) => {
+                const productItem = document.createElement("div");
+                productItem.innerHTML = `
+                    <p>ชื่อสินค้า: ${product.name}</p>
+                    <p>ราคา: ${product.price} บาท</p>
+                    <p>จำนวนคงเหลือ: ${product.quantity}</p>
+                    <p>ประเภท: ${product.category}</p>
+                    <button onclick="deleteProduct(${index})">ลบสินค้า</button>
+                    <hr>
+                `;
+                productContainer.appendChild(productItem);
+            });
+        }
+          
+    </script>
 </body>
+
 </html>
