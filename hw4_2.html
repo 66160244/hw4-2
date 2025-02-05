@@ -16,62 +16,14 @@
         <input type="text" id="Cat" placeholder="ประเภทสินค้า"><br>
         <button type="submit">เพิ่มสินค้า</button>
     </form>
+
     <div id="productDisplay"></div>
 
-    <script>
-         document.getElementById('ProductForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const product = {
-                id: parseInt(document.getElementById('ProductId').value),
-                name: document.getElementById('ProductName').value.trim(),
-                price: parseFloat(document.getElementById('ProductPrice').value),
-                quantity: parseInt(document.getElementById('ProductQuantity').value),
-                category: document.getElementById('Cat').value.trim()
-            };
+    <div id="salesReportDisplay"></div>
 
-            addProduct(product);
-        });
-        function addProduct(productData) {
-            let storedProduct = JSON.parse(localStorage.getItem('ProdData')) || [];
-            if (!Array.isArray(storedProduct)) storedProduct = [];
-            storedProduct.push(productData);
-            localStorage.setItem('ProdData', JSON.stringify(storedProduct));
-            renderProducts();
-        }
-        function deleteProduct(index) {
-            let storedProduct = JSON.parse(localStorage.getItem('ProdData')) || [];
-            storedProduct.splice(index, 1);
-            localStorage.setItem('ProdData',JSON.stringify(storedProduct));
-            renderProducts();
-            }
-        function updateStock(ProdData){
+    <button onclick="generateSalesReport()">แสดงสินค้าขายดี</button>
 
-        }
-        function renderProducts() {
-            let storedProduct = JSON.parse(localStorage.getItem('ProdData')) || [];
-            const productContainer = document.getElementById("productDisplay");
-            productContainer.innerHTML = "";
-
-            storedProduct.forEach((product, index) => {
-                const productItem = document.createElement("div");
-                productItem.innerHTML = `
-                    <p>รหัสสินค้า: ${product.id}</p>
-                    <p>ชื่อสินค้า: ${product.name}</p>
-                    <p>ราคา: ${product.price} บาท</p>
-                    <p>จำนวนคงเหลือ: ${product.quantity}</p>
-                    <p>ประเภท: ${product.category}</p>
-                    <button onclick="deleteProduct(${index})">ลบสินค้า</button>
-                    <button onclick="updateStock($(product.id), -1)">ขาย 1 ชิ้น</button>
-                    <button onclick="updateStock($(product.id), +1)">เพิ่มสต็อก 1 ชิ้น</button>
-                    <hr>
-                `;
-                productContainer.appendChild(productItem);
-            });
-        }
-
-        renderProducts();
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
